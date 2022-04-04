@@ -20,10 +20,10 @@ jobs:
             runner: macos-latest
             target: x86_64-apple-darwin
             suffix: ""
-          - alias: windows
-            runner: windows-latest
-            target: x86_64-pc-windows-msvc
-            suffix: ".exe"
+          # - alias: windows
+          #   runner: windows-latest
+          #   target: x86_64-pc-windows-msvc
+          #   suffix: ".exe"
           - alias: linux
             runner: ubuntu-latest
             target: x86_64-unknown-linux-gnu
