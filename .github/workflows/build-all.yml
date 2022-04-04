@@ -32,9 +32,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Replace with below once PR releases: https://github.com/actions-rs/toolchain/pull/209
-      # - uses: actions-rs/toolchain@v1
-      - uses: oxidecomputer/actions-rs_toolchain@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
 
       - uses: Swatinem/rust-cache@v1.3.0
 

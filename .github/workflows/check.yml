@@ -10,10 +10,11 @@ jobs:
     name: Run clippy
     steps:
       - uses: actions/checkout@v3
-      # Replace with below once PR releases: https://github.com/actions-rs/toolchain/pull/209
-      # - uses: actions-rs/toolchain@v1
-      - uses: oxidecomputer/actions-rs_toolchain@v1
-      - uses: Swatinem/rust-cache@v1.3.0
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: clippy
+          override: true
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -23,8 +24,9 @@ jobs:
     name: Check formatter
     steps:
       - uses: actions/checkout@v3
-      # Replace with below once PR releases: https://github.com/actions-rs/toolchain/pull/209
-      # - uses: actions-rs/toolchain@v1
-      - uses: oxidecomputer/actions-rs_toolchain@v1
-      - uses: Swatinem/rust-cache@v1.3.0
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt
+          override: true
       - run: cargo fmt --check
