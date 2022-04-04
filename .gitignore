@@ -1,0 +1,6 @@
+/target
+/cairn
+/.cargo
+/.env
+/update-offline.db
+/.venv

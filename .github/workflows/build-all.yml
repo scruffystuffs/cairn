@@ -1,0 +1,78 @@
+name: Pull request
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    name: Build ${{ matrix.alias }}
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      matrix:
+        include:
+          - alias: mac-M1
+            runner: macos-latest
+            target: aarch64-apple-darwin
+            suffix: ""
+          - alias: mac-x64
+            runner: macos-latest
+            target: x86_64-apple-darwin
+            suffix: ""
+          - alias: windows
+            runner: windows-latest
+            target: x86_64-pc-windows-msvc
+            suffix: ".exe"
+          - alias: linux
+            runner: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            suffix: ""
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+          profile: minimal
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --target ${{matrix.target}} 
+          use-cross: true
+
+      - name: Move binaries
+        run: |
+          mkdir release
+          cp target/${{ matrix.target }}/release/jfmt${{ matrix.suffix }} release/jfmt_${{ matrix.target }}${{ matrix.suffix }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: binaries
+          path: release
+
+  release:
+    name: Publish release
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+      - name: Get version
+        id: get-version
+        # This strips the '/refs/tags/v' prefix from the tag.  Only used for the changelog.
+        # We can't use github.ref_name because changie doesn't allow v-prefixed versions.
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          body_path: changes/${{ steps.get-version.outputs.VERSION }}.md
+          name: ${{ github.ref_name }}
+          files: binaries/cairn_*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

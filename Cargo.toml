@@ -1,0 +1,23 @@
+[package]
+name = "cairn"
+version = "0.1.0"
+edition = "2021"
+description = "Todo's and reminders via annoyance"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "3.1.8", features = ["derive", "cargo"] }
+derive-getters = "0.2.0"
+directories-next = "2.0.0"
+dotenv = "0.15.0"
+eyre = "0.6.7"
+sqlx = { version = "0.5.11", features = ["migrate", "sqlite", "macros", "runtime-tokio-rustls", "chrono", "offline"] }
+thiserror = "1.0.30"
+tokio = { version = "1.17.0", features = ["full"] }
+typed-builder = "0.10.0"
+
+# Speeds up overall compile times be optimizing the sqlx macro functions.
+# https://github.com/launchbadge/sqlx/tree/f8581386d232aa1e7d4b76d2a7bb1009f8169bcc#compile-time-verification
+[profile.dev.package.sqlx-macros]
+opt-level = 3

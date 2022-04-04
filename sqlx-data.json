@@ -1,0 +1,131 @@
+{
+  "db": "SQLite",
+  "6b753c6409e90e07ac2a41af148814a4d3f303d2f3f9159f60502ed4bbbf63d9": {
+    "describe": {
+      "columns": [
+        {
+          "name": "db_id",
+          "ordinal": 0,
+          "type_info": "Int64"
+        },
+        {
+          "name": "public_id",
+          "ordinal": 1,
+          "type_info": "Int64"
+        },
+        {
+          "name": "summary",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "status: TaskStatus",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "details",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "alarm_time",
+          "ordinal": 5,
+          "type_info": "Datetime"
+        },
+        {
+          "name": "created_time",
+          "ordinal": 6,
+          "type_info": "Datetime"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Right": 0
+      }
+    },
+    "query": "SELECT\n    db_id,\n    public_id,\n    summary,\n    status as \"status: TaskStatus\",\n    details,\n    alarm_time,\n    created_time\nFROM Tasks\nWHERE status in (\"PENDING\", \"ACTIVE\");"
+  },
+  "756c30acc5434ebe5beb632d3be6f454755d5b03cbce988d16bdead2242c1691": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 5
+      }
+    },
+    "query": "INSERT INTO Tasks (public_id, summary, status, details, created_time)\nVALUES (?, ?, ?, ?, ?);"
+  },
+  "9e8e10b991b3a32bba78c3197ce275a12a9e8b583d9127ba6b3dfce2f67ced98": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 0
+      }
+    },
+    "query": "DELETE FROM Tasks;"
+  },
+  "a39b4c1f0147c703dde4968e4339eadfd959b5fa91ef2ff453f606aab1de6fe1": {
+    "describe": {
+      "columns": [
+        {
+          "name": "db_id",
+          "ordinal": 0,
+          "type_info": "Int64"
+        },
+        {
+          "name": "public_id",
+          "ordinal": 1,
+          "type_info": "Int64"
+        },
+        {
+          "name": "summary",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "status: TaskStatus",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "details",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "alarm_time",
+          "ordinal": 5,
+          "type_info": "Datetime"
+        },
+        {
+          "name": "created_time",
+          "ordinal": 6,
+          "type_info": "Datetime"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "SELECT\n    db_id,\n    public_id,\n    summary,\n    status as \"status: TaskStatus\",\n    details,\n    alarm_time,\n    created_time\nFROM Tasks\nWHERE db_id = ?1;"
+  }
+}
