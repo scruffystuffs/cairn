@@ -45,7 +45,7 @@ jobs:
       - name: Move binaries
         run: |
           mkdir release
-          cp target/${{ matrix.target }}/release/jfmt${{ matrix.suffix }} release/jfmt_${{ matrix.target }}${{ matrix.suffix }}
+          cp target/${{ matrix.target }}/release/cairn${{ matrix.suffix }} release/cairn_${{ matrix.target }}${{ matrix.suffix }}
 
       - uses: actions/upload-artifact@v2
         with:
