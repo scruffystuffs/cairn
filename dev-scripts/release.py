@@ -219,13 +219,13 @@ class ReleaseActor:
         if not self._state.did_commit_run:
             raise AssertionError("Tried to push before committing.")
         with progress("Running commit workflow"):
-            git_run("push", "origin", "master")
+            git_run("push", "origin", "main")
             self.github.wait_for_commit_workflow_success(self.commit_hash)
         self._state.did_push_commit = True
 
     def run_release(self):
         if not self._state.did_push_commit:
-            raise AssertionError("Tried to tag before committing to master")
+            raise AssertionError("Tried to tag before committing to main")
         tag = f"v{self.new_version}"
         git_run("tag", "-am", f"Release {tag}", tag)
         git_run("push", "origin", tag)
@@ -368,9 +368,9 @@ def commit_changes(version: str, root: Path):
         [
             root / "Cargo.toml",
             root / "Cargo.lock",
-            root / "changes" / f"{version}.md",
+            root / ".changes" / f"{version}.md",
             root / "CHANGELOG.md",
-            root / "changes" / "unreleased",
+            root / ".changes" / "unreleased",
         ],
     )
     git_run("add", *file_list)
@@ -417,7 +417,7 @@ def main():
     actor.run_release()
 
     # Cargo publish
-    actor.cargo_publish()
+    # actor.cargo_publish()
 
 
 if __name__ == "__main__":
