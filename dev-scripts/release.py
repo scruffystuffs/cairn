@@ -26,7 +26,7 @@ GH_REPO = "cairn"
 TIMEOUT = 15 * 60  # 15 min
 MIN_BUILDTIME = 4 * 60  # 4 min
 WORKFLOW_POLL_SECONDS = 10
-WORKFLOW_NAME = "Publish"
+WORKFLOW_NAME = "Pull request"
 WORKFLOW_FETCH_DELAY = 10
 
 
